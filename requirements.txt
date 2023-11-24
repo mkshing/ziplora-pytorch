@@ -11,3 +11,4 @@ bitsandbytes>=0.40.0
 xformers>=0.0.20
 scipy
 fire
+gradio

@@ -1,6 +1,9 @@
 # ZipLoRA-pytorch
-This is an implementation of [ZipLoRA: Any Subject in Any Style by Effectively Merging LoRAs](https://ziplora.github.io/) by using [🤗diffusers](https://github.com/huggingface/diffusers).
+This is an implementation of [ZipLoRA: Any Subject in Any Style by Effectively Merging LoRAs](https://ziplora.github.io/) by [mkshing](https://twitter.com/mk1stats).
 
+The paper summary by the author is found [here](https://twitter.com/natanielruizg/status/1727718489425616912).
+
+![result](assets/result.png)
 
 ## Installation
 ```
@@ -22,8 +25,8 @@ export MODEL_NAME="stabilityai/stable-diffusion-xl-base-1.0"
 # for subject
 export OUTPUT_DIR="lora-sdxl-dog"
 export INSTANCE_DIR="dog"
-export PROMPT="a sks dog"
-export VALID_PROMPT="a sks dog in a bucket"
+export PROMPT="a sbu dog"
+export VALID_PROMPT="a sbu dog in a bucket"
 
 # for style
 # export OUTPUT_DIR="lora-sdxl-waterpainting"
@@ -54,6 +57,9 @@ accelerate launch train_dreambooth_lora_sdxl.py \
   --push_to_hub \
 ```
 
+* In the above script, all hyperparameters such as `--max_train_steps` and `--rank` are followed the paper. But, of course, you can tweak them for your images. 
+* You can find style images in [aim-uofa/StyleDrop-PyTorch](https://github.com/aim-uofa/StyleDrop-PyTorch/tree/main/data).
+
 ### 2. Train ZipLoRA
 
 ```bash
@@ -62,7 +68,7 @@ export MODEL_NAME="stabilityai/stable-diffusion-xl-base-1.0"
 # for subject
 export LORA_PATH="mkshing/lora-sdxl-dog"
 export INSTANCE_DIR="dog"
-export PROMPT="a sks dog"
+export PROMPT="a sbu dog"
 
 # for style
 export LORA_PATH2="mkshing/lora-sdxl-waterpainting"
@@ -71,7 +77,7 @@ export PROMPT2="a cat of in szn style"
 
 # general 
 export OUTPUT_DIR="ziplora-sdxl-dog-waterpainting"
-export VALID_PROMPT="a sks dog in szn style"
+export VALID_PROMPT="a sbu dog in szn style"
 
 
 accelerate launch train_dreambooth_ziplora_sdxl.py \
@@ -115,10 +121,18 @@ image = pipeline(prompt=prompt).images[0]
 image.save("out.png")
 ```
 
+Also, you can quickly interact with your ziplora by using gradio.
+```bash
+export MODEL_NAME="stabilityai/stable-diffusion-xl-base-1.0"
+export ZIPLORA_PATH="..."
+
+python inference.py --pretrained_model_name_or_path=$MODEL_NAME --ziplora_name_or_path=$ZIPLORA_PATH 
+```
+
 
 ## TODO
 
 - [x] super quick instruction for training each loras
 - [x] ZipLoRA (training)
 - [x] ZipLoRA (inference)
-- [ ] Investigate initial values of mergers 
+- [ ] Pre-optimization lora weights 

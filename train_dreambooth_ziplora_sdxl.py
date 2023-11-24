@@ -148,7 +148,7 @@ license: openrail++
     """
 
     model_card = f"""
-# SDXL LoRA DreamBooth - {repo_id}
+# SDXL ZipLoRA DreamBooth - {repo_id}
 
 <Gallery />
 
@@ -427,6 +427,12 @@ def parse_args(input_args=None):
     )
     parser.add_argument(
         "--init_merger_value",
+        type=float,
+        default=1.0,
+        help="initial value of merger coefficient vectors",
+    )
+    parser.add_argument(
+        "--init_merger_value_2",
         type=float,
         default=1.0,
         help="initial value of merger coefficient vectors",
@@ -1014,6 +1020,7 @@ def main(args):
                 in_features=attn_module.to_q.in_features,
                 out_features=attn_module.to_q.out_features,
                 init_merger_value=args.init_merger_value,
+                init_merger_value_2=args.init_merger_value_2,
                 **kwargs,
             )
         )
@@ -1023,6 +1030,7 @@ def main(args):
                 in_features=attn_module.to_k.in_features,
                 out_features=attn_module.to_k.out_features,
                 init_merger_value=args.init_merger_value,
+                init_merger_value_2=args.init_merger_value_2,
                 **kwargs,
             )
         )
@@ -1032,6 +1040,7 @@ def main(args):
                 in_features=attn_module.to_v.in_features,
                 out_features=attn_module.to_v.out_features,
                 init_merger_value=args.init_merger_value,
+                init_merger_value_2=args.init_merger_value_2,
                 **kwargs,
             )
         )
@@ -1041,6 +1050,7 @@ def main(args):
                 in_features=attn_module.to_out[0].in_features,
                 out_features=attn_module.to_out[0].out_features,
                 init_merger_value=args.init_merger_value,
+                init_merger_value_2=args.init_merger_value_2,
                 **kwargs,
             )
         )
@@ -1741,7 +1751,7 @@ def main(args):
         # run inference
         images = []
         if args.validation_prompt and args.num_validation_images > 0:
-            pipeline = pipeline.to(accelerator.device)
+            pipeline = pipeline.to(accelerator.device, dtype=weight_dtype)
             generator = (
                 torch.Generator(device=accelerator.device).manual_seed(args.seed)
                 if args.seed

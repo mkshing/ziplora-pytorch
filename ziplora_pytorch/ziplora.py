@@ -8,7 +8,8 @@ class ZipLoRALinearLayer(nn.Module):
         self,
         in_features: int,
         out_features: int,
-        init_merger_value: float = 1.0,
+        init_merger_value: Optional[float] = 1.0,
+        init_merger_value_2: Optional[float] = 1.0,
         device: Optional[Union[torch.device, str]] = None,
         dtype: Optional[torch.dtype] = None,
     ):
@@ -25,11 +26,9 @@ class ZipLoRALinearLayer(nn.Module):
         self.merger_1 = nn.Parameter(
             torch.ones((in_features,), device=device, dtype=dtype) * init_merger_value
         )
-        # TODO: emprically starting with 0 seems better
         self.merger_2 = nn.Parameter(
-            torch.ones((in_features,), device=device, dtype=dtype) * init_merger_value
+            torch.ones((in_features,), device=device, dtype=dtype) * init_merger_value_2
         )
-
         self.out_features = out_features
         self.in_features = in_features
         self.forward_type = "merge"
