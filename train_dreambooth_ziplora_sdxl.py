@@ -126,7 +126,7 @@ def save_model_card(
         img_str += f"""
         - text: '{validation_prompt if validation_prompt else ' ' }'
           output:
-            url: >-
+            url:
                 "image_{i}.png"
         """
 
@@ -140,7 +140,6 @@ tags:
 - lora
 - template:sd-lora
 {img_str}
----
 base_model: {base_model}
 instance_prompt: {instance_prompt}
 license: openrail++
@@ -154,14 +153,18 @@ license: openrail++
 
 ## Model description
 
-These are {repo_id} LoRA adaption weights for {base_model}.
-The weights were trained  using [DreamBooth](https://dreambooth.github.io/).
+These are {repo_id} ZipLoRA adaption weights for {base_model}.
+
+The weights were trained  using [DreamBooth](https://dreambooth.github.io/) and [ZipLoRA](https://ziplora.github.io/).
+
 LoRA for the text encoder was enabled: {train_text_encoder}.
+
 Special VAE used for training: {vae_path}.
 
 ## Trigger words
 
-You should use {instance_prompt} to trigger the image generation.
+You should use a combination of  {instance_prompt} and {instance_prompt_2} to trigger the image generation 
+using the two trained concepts.
 
 ## Download model
 
