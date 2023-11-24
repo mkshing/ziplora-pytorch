@@ -112,7 +112,7 @@ def ziplora_compute_mergers_similarity(unet):
 
 
 def merge_lora_weights_for_inference(
-    tensors: torch.Tensor, key: str, prefix: str = "unet.unet."
+    tensors: Dict[str, torch.Tensor], key: str, prefix: str = "unet.unet."
 ) -> Dict[str, torch.Tensor]:
     """
     Args:
