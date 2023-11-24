@@ -116,6 +116,7 @@ def save_model_card(
     base_model=str,
     train_text_encoder=False,
     instance_prompt=str,
+    instance_prompt2=str,
     validation_prompt=str,
     repo_folder=None,
     vae_path=None,
