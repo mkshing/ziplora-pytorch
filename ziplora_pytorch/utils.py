@@ -11,7 +11,7 @@ from .ziplora import ZipLoRALinearLayer, ZipLoRALinearLayerInference
 
 def get_lora_weights(
     lora_name_or_path: str, subfolder: Optional[str] = None, **kwargs
-) -> torch.Tensor:
+) -> Dict[str, torch.Tensor]:
     """
     Args:
         lora_name_or_path (str): huggingface repo id or folder path of lora weights
