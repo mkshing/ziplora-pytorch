@@ -1325,7 +1325,7 @@ def main(args):
         prompt_embeds_2 = instance_prompt_hidden_states_2
         unet_add_text_embeds_2 = instance_pooled_prompt_embeds_2
 
-    # if we're optmizing the text encoder (both if instance prompt is used for all images or custom prompts) we need to tokenize and encode the
+    # if we're optimizing the text encoder (both if instance prompt is used for all images or custom prompts) we need to tokenize and encode the
     # batch prompts on all training steps
     else:
         tokens_one = tokenize_prompt(tokenizer_one, args.instance_prompt)
