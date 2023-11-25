@@ -70,7 +70,9 @@ def initialize_ziplora_layer(state_dict, state_dict_2, part, **model_kwargs):
     return ziplora_layer
 
 
-def unet_ziplora_state_dict(unet: UNet2DConditionModel) -> Dict[str, torch.Tensor]:
+def unet_ziplora_state_dict(
+    unet: UNet2DConditionModel, quick_release: bool = False
+) -> Dict[str, torch.Tensor]:
     r"""
     Returns:
         A state dict containing just the LoRA parameters.
@@ -84,6 +86,9 @@ def unet_ziplora_state_dict(unet: UNet2DConditionModel) -> Dict[str, torch.Tenso
                 assert hasattr(lora_layer, "get_ziplora_weight"), lora_layer
                 weight = lora_layer.get_ziplora_weight()
                 lora_state_dict[f"unet.{name}.lora.weight"] = weight
+
+            if quick_release:
+                module.cpu()
     return lora_state_dict
 
 

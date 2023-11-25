@@ -658,6 +658,11 @@ def parse_args(input_args=None):
         action="store_true",
         help="Whether or not to use xformers.",
     )
+    parser.add_argument(
+        "--quick_release",
+        action="store_true",
+        help="Releases VRAM immediately after processing each layer, conserving it."
+    )
 
     if input_args is not None:
         args = parser.parse_args(input_args)
@@ -1697,7 +1702,7 @@ def main(args):
     if accelerator.is_main_process:
         unet = accelerator.unwrap_model(unet)
         unet = unet.to(torch.float32)
-        unet_lora_layers = unet_ziplora_state_dict(unet)
+        unet_lora_layers = unet_ziplora_state_dict(unet, args.quick_release)
 
         if args.train_text_encoder:
             text_encoder_one = accelerator.unwrap_model(text_encoder_one)
