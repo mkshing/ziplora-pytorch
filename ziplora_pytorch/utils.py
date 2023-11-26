@@ -87,8 +87,8 @@ def unet_ziplora_state_dict(
                 weight = lora_layer.get_ziplora_weight()
                 lora_state_dict[f"unet.{name}.lora.weight"] = weight
 
-            if quick_release:
-                module.cpu()
+                if quick_release:
+                    lora_layer.cpu()
     return lora_state_dict
 
 
