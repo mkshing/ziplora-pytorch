@@ -38,9 +38,7 @@ class ZipLoRALinearLayer(nn.Module):
         self.forward_type = type
 
     def compute_mergers_similarity(self):
-        return nn.functional.cosine_similarity(
-            self.merger_1, self.merger_2, dim=0
-        ).abs()
+        return (self.merger_1 * self.merger_2).abs().mean()
 
     def get_ziplora_weight(self):
         return self.merger_1 * self.weight_1 + self.merger_2 * self.weight_2
