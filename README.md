@@ -107,6 +107,8 @@ accelerate launch train_dreambooth_ziplora_sdxl.py \
 
 ```
 
+* If you're facing VRAM limitations during training, use the `--quick_release` flag to help free up VRAM.
+
 ### 3. Inference
 
 ```python
