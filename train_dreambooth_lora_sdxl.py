@@ -1910,6 +1910,15 @@ def main(args):
             text_encoder_lora_layers=text_encoder_lora_layers,
             text_encoder_2_lora_layers=text_encoder_2_lora_layers,
         )
+        
+        # remove unuse models for save GPU memory
+        unet = unet.cpu()
+        text_encoder_one = text_encoder_one.cpu()
+        text_encoder_two = text_encoder_two.cpu()
+        del unet, text_encoder_one, text_encoder_two
+        del optimizer
+        if args.train_text_encoder:
+            del text_encoder_lora_layers, text_encoder_2_lora_layers
 
         # Final inference
         # Load previous pipeline
